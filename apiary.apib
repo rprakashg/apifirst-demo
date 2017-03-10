@@ -1,0 +1,145 @@
+FORMAT: 1A
+HOST: http://apifirst.t-mobile.io/
+
+# tmo-surveys
+
+TMO-Surveys is a simple API allowing consumers create, retrieve, update and delete surveys
+
+## Surveys Collection [/surveys{?limit}]
+
+### List All Surveys [GET]
+
+Returns collection of surveys
+
++ Parameters
+    + limit (number, optional, `10`)
+        
++ Response 200 (application/json)
+
+    + Attributes (array[Survey])
+    
+    + Body
+
+            [{
+                "id": "1",
+                "title": "Survey 1",
+                "questions": [
+                    {
+                        "text": "Question 1"
+                        "choices": [
+                            {
+                                "text": "choice 1",
+                                "votes": 0
+                            },
+                            {
+                                "text": "choice 2",
+                                "votes": 0
+                            }
+                        ]
+                    }
+                ]
+            }]
+
+            
+### Create a New Survey [POST]
+
+You may create your own Survey using this action. It takes a JSON
+object containing a Survey and a collection of Questions each with a collection 
+of answers in the form of choices.
+
++ Request (application/json)
+
+    + Attributes (Survey)
+    
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
+
+## Survey [/surveys/{id}]
+
+### Update survey [PUT]
+
+You may update a survey using this action, it takes a JSON object containing survey
+object that was previously retrieved
+
++ Parameters
+    + id (number, required, `1`)
+
++ Request
+    
+    + Attributes (Survey)
+        
++ Response 200 (application/json)
+
+    + Attributes (Survey)
+
+    + Body   
+    
+            {
+                "id": 1,
+                "title": "Survey 1"
+            }
+    
+### Delete a survey [DELETE]
+
+You may use this action to delete a survey.
+
++ Parameters
+    + id (number, required, `1`)
+    
++ Response 204
+
+# Data Structures
+
+## Survey (object)
+
+- id (number)
+- title (string)
+- questions (array[Question])
+- created_by (string)
+- create_date (string)
+
+
+## Question (object)
+
+- text (string)
+- choices (array[Choice])
+
+## Choice (object)
+
+- description (string)
+- votes (number)
