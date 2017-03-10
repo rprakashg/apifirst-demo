@@ -5,7 +5,7 @@ HOST: http://apifirst.t-mobile.io/
 
 TMO-Surveys is a simple API allowing consumers create, retrieve, update and delete surveys
 
-## Surveys Collection [/surveys{?limit}]
+## Surveys [/surveys{?limit}]
 
 ### List All Surveys [GET]
 
@@ -22,7 +22,8 @@ Returns collection of surveys
 
             [{
                 "id": "1",
-                "title": "Survey 1",
+                "title": "API First",
+                "description": "This Survey is for API first lunch and learn talk" 
                 "questions": [
                     {
                         "text": "Question 1"
@@ -38,6 +39,8 @@ Returns collection of surveys
                         ]
                     }
                 ]
+                "created_by": "Ram Gopinathan",
+                "create_date": "2015-08-05T08:40:51.620Z"
             }]
 
             
@@ -52,46 +55,124 @@ of answers in the form of choices.
     + Attributes (Survey)
     
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
+            "title": "Digital Axioms",
+            "description": "This Survey is for Digital Axioms lunch and learn talk" 
+            "questions": [
+                {
+                    "text": "Question 1"
+                    "choices": [
+                        {
+                            "text": "choice 1",
+                            "votes": 0
+                        },
+                        {
+                            "text": "choice 2",
+                            "votes": 0
+                        }
+                    ]
+                },
+                {
+                    "text": "Question 2"
+                    "choices": [
+                        {
+                            "text": "choice 1",
+                            "votes": 0
+                        },
+                        {
+                            "text": "choice 2",
+                            "votes": 0
+                        }
+                    ]
+                }
             ]
+            "created_by": "Ram Gopinathan",
+            "create_date": "2015-08-05T08:40:51.620Z"
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /surveys/2
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "id": "2",
+                "title": "Digital Axioms",
+                "description": "This Survey is for Digital Axioms lunch and learn talk" 
+                "questions": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                        "text": "Question 1"
+                        "choices": [
+                            {
+                                "text": "choice 1",
+                                "votes": 0
+                            },
+                            {
+                                "text": "choice 2",
+                                "votes": 0
+                            }
+                        ]
+                    },
+                    {
+                        "text": "Question 2"
+                        "choices": [
+                            {
+                                "text": "choice 1",
+                                "votes": 0
+                            },
+                            {
+                                "text": "choice 2",
+                                "votes": 0
+                            }
+                        ]
                     }
                 ]
+                "created_by": "Ram Gopinathan",
+                "create_date": "2015-08-05T08:40:51.620Z"
             }
 
 ## Survey [/surveys/{id}]
 
-### Update survey [PUT]
+### Get Survey [GET]
+
+You may get a survey using this action, unique identifier for survey is passed via 
+path in URL
+
++ Parameters
+    + id (number, required, `1`)
+
++ Response 200 (application/json)
+
+    + Attributes (Survey)
+    
+    + Body
+            
+            {
+                "id": "1",
+                "title": "API First",
+                "description": "This Survey is for API first lunch and learn talk" 
+                "questions": [
+                    {
+                        "text": "Question 1"
+                        "choices": [
+                            {
+                                "text": "choice 1",
+                                "votes": 0
+                            },
+                            {
+                                "text": "choice 2",
+                                "votes": 0
+                            }
+                        ]
+                    }
+                ]
+                "created_by": "Ram Gopinathan",
+                "create_date": "2015-08-05T08:40:51.620Z"
+            }
+    
+### Update Survey [PUT]
 
 You may update a survey using this action, it takes a JSON object containing survey
 object that was previously retrieved
@@ -102,7 +183,13 @@ object that was previously retrieved
 + Request
     
     + Attributes (Survey)
-        
+    
+    + Body
+    
+            {
+                "description": "This Survey is for API first lunch and learn talk on March 10th 2017" 
+            }
+            
 + Response 200 (application/json)
 
     + Attributes (Survey)
@@ -110,8 +197,26 @@ object that was previously retrieved
     + Body   
     
             {
-                "id": 1,
-                "title": "Survey 1"
+                "id": "1",
+                "title": "API First",
+                "description": "This Survey is for API first lunch and learn talk on March 10th 2017" 
+                "questions": [
+                    {
+                        "text": "Question 1"
+                        "choices": [
+                            {
+                                "text": "choice 1",
+                                "votes": 0
+                            },
+                            {
+                                "text": "choice 2",
+                                "votes": 0
+                            }
+                        ]
+                    }
+                ]
+                "created_by": "Ram Gopinathan",
+                "create_date": "2015-08-05T08:40:51.620Z"
             }
     
 ### Delete a survey [DELETE]
@@ -127,19 +232,20 @@ You may use this action to delete a survey.
 
 ## Survey (object)
 
-- id (number)
-- title (string)
-- questions (array[Question])
-- created_by (string)
-- create_date (string)
+- id (number, required)
+- title (string, required)
+- description (string)
+- questions (array[Question], required)
+- created_by (string, required)
+- create_date (string, required)
 
 
 ## Question (object)
 
-- text (string)
-- choices (array[Choice])
+- text (string, required)
+- choices (array[Choice], required)
 
 ## Choice (object)
 
-- description (string)
-- votes (number)
+- text (string, required)
+- votes: `0` (number, required)
